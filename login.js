@@ -1,18 +1,37 @@
+/**
+ * Выносим ожидаемые логин и пароль в настоящие константы. Такие константы обычно пишуться капсом.
+ */
+const REQUIRED_LOGIN = 'Админ';
+const REQUIRED_PASSWORD = 'Я главный';
 
-let login = "Админ";
-let password = "Я главный";
-let userLogin = prompt ("Введите логин");
-if (login == userLogin) {
-    let userPassword = prompt ("Введите пароль");
-    if (userPassword == password) {
-        alert ("Здравствуйте Админ");
-    } else if (userPassword !== password) {
-        if (userPassword == null || userPassword == "" || userPassword == undefined) {
-            alert ("Отмена");
-        } else {
-            alert ("Неверный пароль");
-            }
-    }
-} else if (userLogin == null || userLogin == "" || userLogin == undefined) {
-    alert ("Отмена");
-} else alert ("Вы кто такой?");
+/**
+ * Пишем функции на запрос логина и пароля + встроенная проверка на соответствие требуемым данным.
+ * Стрелочная функция ниже равносильна такому коду:
+ * 
+ * function getLogin {
+ *      const login = prompt('Введите логин');
+ *      if (login !== REQUIRED_LOGIN) {
+ *          return true;
+ *      } else {
+ *          return false;
+ *      }
+ * }
+ */
+const getLogin = () => prompt('Введите логин') === REQUIRED_LOGIN;
+const getPassword = () => prompt('Введите пароль') === REQUIRED_PASSWORD;
+/**
+ * Пишем функцию проведения авторизации.
+ * 1. Если полученное значение логина будет чем угодно, кроме ожидаемого логина, выведет alert ("Вы кто такой?") и функция прервет свою работу.
+ * 2. Если полученное значение пароля будет чем угодно, кроме ожидаемого пароля, выведет alert ("Неверный пароль") и функция прервет свою работу.
+ * 3. Если 2 верхние проверки пройдены, выводим alert ("Здравствуйте Админ") и возвращаем из функции true (может пригодится в других частях кода).
+ */
+const getAuthorize = () => {
+    if (!getLogin()) return alert ("Вы кто такой?");
+    if (!getPassword()) return alert ("Неверный пароль");
+    alert ("Здравствуйте Админ");
+    return true;
+}
+/**
+ * Запускаем всю движуху.
+ */
+getAuthorize();
